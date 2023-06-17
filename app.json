@@ -5,6 +5,11 @@
       "bundler": "metro"
     },
     "name": "grabby",
-    "slug": "grabby"
+    "slug": "grabby",
+    "splash": {
+      "image": "./assets/splash.png",
+      "resizeMode": "center",
+      "backgroundColor": "#fff"
+    }
   }
 }
