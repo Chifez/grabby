@@ -1,16 +1,9 @@
-import { Slot } from "expo-router";
-import { View, Text } from "react-native";
+import { Stack } from "expo-router";
 
-export const AuthLayout = () => {
+export const AppLayout = () => {
   return (
-    <View>
-      <View>
-        <Text>Header</Text>
-      </View>
-      <Slot />
-      <View>
-        <Text>Footer</Text>
-      </View>
-    </View>
+    <Stack>
+      <Stack.Screen name="(tabs)" />
+    </Stack>
   );
 };

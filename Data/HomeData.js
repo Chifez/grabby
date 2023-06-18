@@ -33,7 +33,7 @@ export const HomecategoryData = [
   {
     id: 3,
     image: require("../assets/purchase.png"),
-    title: "purchase",
+    title: "dispatch",
   },
   {
     id: 4,
@@ -52,27 +52,32 @@ export const HomePopularData = [
   {
     id: 1,
     image: require("../assets/catfood.png"),
-    title: "food",
+    title: "Chi noodles",
+    category: "food",
   },
   {
     id: 2,
     image: require("../assets/catfashion.png"),
-    title: "fashion",
+    title: "Tems bouique",
+    category: "fashion",
   },
   {
     id: 3,
     image: require("../assets/purchase.png"),
-    title: "purchase",
+    title: "jumia",
+    category: "purchase",
   },
   {
     id: 4,
     image: require("../assets/pharmacy.png"),
-    title: "pharmacy",
+    title: "Medikal",
+    category: "pharmacy",
   },
 
   {
     id: 5,
     image: require("../assets/purchase.png"),
-    title: "courier",
+    title: "hdl",
+    category: "courier",
   },
 ];

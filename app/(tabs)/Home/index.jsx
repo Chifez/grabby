@@ -1,13 +1,25 @@
-import { View, Text, SafeAreaView, TextInput, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TextInput,
+  FlatList,
+  TouchableOpacity,
+} from "react-native";
+import { Link } from "expo-router";
 import React from "react";
 import { Ionicons } from "@expo/vector-icons";
 import { EvilIcons } from "@expo/vector-icons";
-import { HomeSlideData, HomecategoryData } from "../../Data/HomeData";
-import SliderCard from "../../components/sliderCard";
-import CategoryCard from "../../components/categoryCard";
+import {
+  HomeSlideData,
+  HomecategoryData,
+  HomePopularData,
+} from "../../../Data/HomeData";
+import SliderCard from "../../../components/sliderCard";
+import CategoryCard from "../../../components/categoryCard";
+import PopularCard from "../../../components/popularCards";
 import { useState, useRef } from "react";
 import { Dimensions } from "react-native";
-
 import { styles } from "./home.style";
 
 const Home = () => {
@@ -76,15 +88,46 @@ const Home = () => {
       </View>
 
       {/* Start of categories sections */}
+      <View style={styles.categoryContainer}>
+        <View style={styles.categoryMain}>
+          <Text style={styles.categoryText}>Category</Text>
+          <TouchableOpacity>
+            <Link href="#" style={[styles.categoryText, { color: "green" }]}>
+              View all
+            </Link>
+          </TouchableOpacity>
+        </View>
+        <FlatList
+          horizontal
+          data={HomecategoryData}
+          renderItem={({ item, index }) => (
+            <CategoryCard item={item} key={item.id} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+      </View>
 
-      <FlatList
-        horizontal
-        data={HomecategoryData}
-        renderItem={({ item, index }) => (
-          <CategoryCard item={item} key={item.id} />
-        )}
-        keyExtractor={(item) => item.id}
-      />
+      {/* Start of popular section */}
+      <View>
+        <View style={styles.categoryContainer}>
+          <View style={styles.categoryMain}>
+            <Text style={styles.categoryText}>Popular</Text>
+            <TouchableOpacity>
+              <Link href="#" style={[styles.categoryText, { color: "green" }]}>
+                View all
+              </Link>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            horizontal
+            data={HomePopularData}
+            renderItem={({ item, index }) => (
+              <PopularCard item={item} key={item.id} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      </View>
     </SafeAreaView>
   );
 };

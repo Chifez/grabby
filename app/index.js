@@ -52,6 +52,7 @@ export default function App() {
     return null;
   }
 
+  //in this page you will be showing the startup page which links to the signin and signup page and if the user is already signed up or in you rediect to the home page without showing the start up page
   return (
     <View
       style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
@@ -59,7 +60,7 @@ export default function App() {
     >
       <Text>SplashScreen Demo! 👋</Text>
       <Entypo name="rocket" size={30} />
-      <Link href="/home/Home">home</Link>
+      <Link href="/Home">home</Link>
       <Link href="/Auth/signIn/SignIn">SignIn</Link>
       <Link href="/Auth/signUp/SignUp">Signup</Link>
     </View>

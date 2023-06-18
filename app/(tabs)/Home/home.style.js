@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 60,
     paddingHorizontal: 20,
     fontFamily: "Inter-Black",
   },
@@ -60,5 +60,17 @@ export const styles = StyleSheet.create({
     height: 10,
     margin: 2,
     borderRadius: 10,
+  },
+  categoryMain: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 5,
+  },
+  categoryText: {
+    fontFamily: "Inter-Reg",
+    fontSize: 14,
+    fontWeight: 700,
   },
 });
