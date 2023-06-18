@@ -6,18 +6,15 @@ const SliderCard = ({ item }) => {
   return (
     <View style={styles.container}>
       <View style={[styles.titleContainer, { backgroundColor: `${color}` }]}>
-        <Text style={styles.titleText}>
+        <View style={styles.titleText}>
           {title.map((item, idx) => (
-            <Text key={idx}>{item}</Text>
+            <Text key={idx} style={styles.text}>
+              {item}
+            </Text>
           ))}
-        </Text>
+        </View>
       </View>
-      <View style={styles.titleContainer}>
-        <Image
-          source={image}
-          style={[styles.imageBanner, { width: 100, height: 100 }]}
-        />
-      </View>
+      <Image source={image} style={styles.imageBanner} />
     </View>
   );
 };
@@ -25,14 +22,47 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "row",
-    padding: 3,
+    justifyContent: "space-between",
+    alignItems: "center",
+    margin: 2, // change later
     borderRadius: 5,
+    overflow: "hidden",
+    width: 230, // change later
+    height: 125,
+    position: "relative",
   },
   titleContainer: {
-    width: "70%",
-    zIndex: 20,
-    borderBottomEndRadius: 20,
-    borderTopEndRadius: 20,
+    zIndex: 10,
+    borderBottomEndRadius: 60,
+    borderTopEndRadius: 60,
+    width: "60%",
+    height: "100%",
+  },
+  titleText: {
+    display: "flex",
+    gap: 3,
+    height: "100%",
+    width: "100%",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    marginLeft: "5%",
+  },
+  text: {
+    fontFamily: "Inter-Reg",
+    fontWeight: 700,
+    textTransform: "uppercase",
+    color: "white",
+    fontSize: 16,
+  },
+  imageBanner: {
+    flex: 1,
+    width: "80%",
+    height: "100%",
+    position: "absolute",
+    right: 0,
+    zIndex: -1,
+    width: "80%",
+    height: "100%",
   },
 });
 export default SliderCard;

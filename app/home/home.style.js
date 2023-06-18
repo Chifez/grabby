@@ -48,4 +48,17 @@ export const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
   },
+  dotContainer: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 2,
+    justifyContent: "flex-start",
+    alignItems: "center",
+  },
+  dot: {
+    width: 10,
+    height: 10,
+    margin: 2,
+    borderRadius: 10,
+  },
 });

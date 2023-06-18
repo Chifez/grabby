@@ -4,6 +4,7 @@
     "web": {
       "bundler": "metro"
     },
+    "icon": "./assets/grabby.png",
     "name": "grabby",
     "slug": "grabby",
     "splash": {
