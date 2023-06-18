@@ -81,3 +81,30 @@ export const HomePopularData = [
     category: "courier",
   },
 ];
+
+export const BestSellerData = [
+  {
+    id: 1,
+    image: require("../assets/homeburger.png"),
+    title: "Kaizen burger",
+    category: "Food",
+    subcategory: "Fast Food",
+    top: true,
+  },
+  {
+    id: 2,
+    image: require("../assets/homeburger.png"),
+    title: "Kaizen burger",
+    category: "Food",
+    subcategory: "Fast Food",
+    top: false,
+  },
+  {
+    id: 3,
+    image: require("../assets/homeburger.png"),
+    title: "Kaizen burger",
+    category: "Food",
+    subcategory: "Fast Food",
+    top: false,
+  },
+];

@@ -5,6 +5,7 @@ import {
   TextInput,
   FlatList,
   TouchableOpacity,
+  ScrollView,
 } from "react-native";
 import { Link } from "expo-router";
 import React from "react";
@@ -14,10 +15,12 @@ import {
   HomeSlideData,
   HomecategoryData,
   HomePopularData,
+  BestSellerData,
 } from "../../../Data/HomeData";
 import SliderCard from "../../../components/sliderCard";
 import CategoryCard from "../../../components/categoryCard";
 import PopularCard from "../../../components/popularCards";
+import BestSellerCard from "../../../components/BestSellerCard";
 import { useState, useRef } from "react";
 import { Dimensions } from "react-native";
 import { styles } from "./home.style";
@@ -53,62 +56,62 @@ const Home = () => {
         </View>
         <Ionicons name="options-outline" size={27} color="green" />
       </View>
-
-      {/* start of hero tags */}
-      <View>
-        <FlatList
-          horizontal
-          data={HomeSlideData}
-          renderItem={({ item, index }) => (
-            <SliderCard item={item} key={item.id} />
-          )}
-          keyExtractor={(item) => item.id}
-          onScroll={onScroll}
-        />
-        <View style={styles.dotContainer}>
-          <View
-            style={[
-              styles.dot,
-              { backgroundColor: `${isactive === 0 ? "green" : "#C4C4C4"}` },
-            ]}
-          ></View>
-          <View
-            style={[
-              styles.dot,
-              { backgroundColor: `${isactive === 1 ? "green" : "#C4C4C4"}` },
-            ]}
-          ></View>
-          <View
-            style={[
-              styles.dot,
-              { backgroundColor: `${isactive === 2 ? "green" : "#C4C4C4"}` },
-            ]}
-          ></View>
+      <ScrollView>
+        {/* start of hero tags */}
+        <View>
+          <FlatList
+            horizontal
+            data={HomeSlideData}
+            renderItem={({ item, index }) => (
+              <SliderCard item={item} key={item.id} />
+            )}
+            keyExtractor={(item) => item.id}
+            onScroll={onScroll}
+          />
+          <View style={styles.dotContainer}>
+            <View
+              style={[
+                styles.dot,
+                { backgroundColor: `${isactive === 0 ? "green" : "#C4C4C4"}` },
+              ]}
+            ></View>
+            <View
+              style={[
+                styles.dot,
+                { backgroundColor: `${isactive === 1 ? "green" : "#C4C4C4"}` },
+              ]}
+            ></View>
+            <View
+              style={[
+                styles.dot,
+                { backgroundColor: `${isactive === 2 ? "green" : "#C4C4C4"}` },
+              ]}
+            ></View>
+          </View>
         </View>
-      </View>
 
-      {/* Start of categories sections */}
-      <View style={styles.categoryContainer}>
-        <View style={styles.categoryMain}>
-          <Text style={styles.categoryText}>Category</Text>
-          <TouchableOpacity>
-            <Link href="#" style={[styles.categoryText, { color: "green" }]}>
-              View all
-            </Link>
-          </TouchableOpacity>
+        {/* Start of categories sections */}
+        <View style={styles.categoryContainer}>
+          <View style={styles.categoryMain}>
+            <Text style={styles.categoryText}>Category</Text>
+            <TouchableOpacity>
+              <Link href="#" style={[styles.categoryText, { color: "green" }]}>
+                View all
+              </Link>
+            </TouchableOpacity>
+          </View>
+          <FlatList
+            horizontal
+            data={HomecategoryData}
+            renderItem={({ item, index }) => (
+              <CategoryCard item={item} key={item.id} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
         </View>
-        <FlatList
-          horizontal
-          data={HomecategoryData}
-          renderItem={({ item, index }) => (
-            <CategoryCard item={item} key={item.id} />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-      </View>
 
-      {/* Start of popular section */}
-      <View>
+        {/* Start of popular section */}
+
         <View style={styles.categoryContainer}>
           <View style={styles.categoryMain}>
             <Text style={styles.categoryText}>Popular</Text>
@@ -127,7 +130,21 @@ const Home = () => {
             keyExtractor={(item) => item.id}
           />
         </View>
-      </View>
+        {/* Start of best seller section */}
+        <View style={styles.bestSellerContainer}>
+          <View style={styles.categoryMain}>
+            <Text style={styles.categoryText}>Best Seller</Text>
+          </View>
+          <FlatList
+            data={BestSellerData}
+            contentContainerStyle={{ paddingBottom: 340 }}
+            renderItem={({ item, index }) => (
+              <BestSellerCard item={item} key={item.id} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
