@@ -17,10 +17,10 @@ import {
   HomePopularData,
   BestSellerData,
 } from "../../../Data/HomeData";
-import SliderCard from "../../../components/sliderCard";
-import CategoryCard from "../../../components/categoryCard";
-import PopularCard from "../../../components/popularCards";
-import BestSellerCard from "../../../components/BestSellerCard";
+import SliderCard from "./common/card/sliderCard";
+import CategoryCard from "./common/card/categoryCard";
+import PopularCard from "./common/card/popularCards";
+import BestSellerCard from "./common/card/BestSellerCard";
 import { useState, useRef } from "react";
 import { Dimensions } from "react-native";
 import { styles } from "./home.style";
@@ -56,7 +56,10 @@ const Home = () => {
         </View>
         <Ionicons name="options-outline" size={27} color="green" />
       </View>
-      <ScrollView>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        nestedScrollEnabled={true}
+      >
         {/* start of hero tags */}
         <View>
           <FlatList
@@ -131,19 +134,20 @@ const Home = () => {
           />
         </View>
         {/* Start of best seller section */}
-        <View style={styles.bestSellerContainer}>
-          <View style={styles.categoryMain}>
-            <Text style={styles.categoryText}>Best Seller</Text>
-          </View>
-          <FlatList
-            data={BestSellerData}
-            contentContainerStyle={{ paddingBottom: 340 }}
-            renderItem={({ item, index }) => (
-              <BestSellerCard item={item} key={item.id} />
-            )}
-            keyExtractor={(item) => item.id}
-          />
+        {/* <View style={styles.bestSellerContainer}> */}
+        <View style={styles.categoryMain}>
+          <Text style={styles.categoryText}>Best Seller</Text>
         </View>
+        <FlatList
+          vertical
+          data={BestSellerData}
+          contentContainerStyle={{ paddingBottom: 340 }}
+          renderItem={({ item, index }) => (
+            <BestSellerCard item={item} key={item.id} />
+          )}
+          keyExtractor={(item) => item.id}
+        />
+        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );

@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     // padding: 3,
-    margin: 4,
+    marginVertical: 4,
     borderRadius: 10,
     backgroundColor: "white",
     position: "relative",
