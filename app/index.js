@@ -3,11 +3,13 @@ import { Text, View, FlatList, Dimensions, StyleSheet } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { useFonts } from "expo-font";
 import { startPageData } from "../Data/startUpData";
 import OnBoarding from "../components/onBoarding";
 import Button from "../components/Button";
+import { ActivityIndicator } from "react-native";
+import { useBoundedStore } from "../features/store";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -16,7 +18,9 @@ export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [renderButton, setRenderButton] = useState(true);
+  const auth = useBoundedStore((state) => state.user);
 
+  const router = useRouter();
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
     "Inter-Reg": require("../assets/fonts/Inter-Regular.ttf"),
@@ -49,7 +53,11 @@ export default function App() {
   }, [appIsReady, fontsLoaded]);
 
   if (!appIsReady) {
-    return null;
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color="green" />
+      </View>
+    );
   }
 
   const { width, height } = Dimensions.get("window");
@@ -74,7 +82,7 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    // Handle the "Get Started" action
+    router.push("Auth");
   };
 
   //in this page you will be showing the startup page which links to the signin and signup page and if the user is already signed up or in you rediect to the home page without showing the start up page
@@ -99,14 +107,14 @@ export default function App() {
         <View style={styles.dot(currentIndex, 2)}></View>
       </View>
       <View style={styles.navContainer(currentIndex)}>
-        {currentIndex === 1 ? (
+        {/* {currentIndex === 1 ? (
           <Button
             title="Back"
             onPress={handlePrev}
             styleMain={{ width: 130, paddingHorizontal: 3 }}
             styleTitle={{}}
           />
-        ) : null}
+        ) : null} */}
         {currentIndex === 0 || currentIndex === 1 ? (
           <Button
             title="Next"
@@ -122,6 +130,7 @@ export default function App() {
           />
         ) : null}
       </View>
+      <Text>{auth}</Text>
     </View>
   );
 }
@@ -151,9 +160,10 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
+    // justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
+    justifyContent: "flex-end",
+
     width: "100%",
-    // height: 50,
     paddingHorizontal: 10,
     marginVertical: 10,
   }),
