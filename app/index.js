@@ -1,12 +1,5 @@
 import { useCallback, useEffect, useState, useRef } from "react";
-import {
-  Text,
-  View,
-  FlatList,
-  Dimensions,
-  Button,
-  StyleSheet,
-} from "react-native";
+import { Text, View, FlatList, Dimensions, StyleSheet } from "react-native";
 import Entypo from "@expo/vector-icons/Entypo";
 import * as SplashScreen from "expo-splash-screen";
 import * as Font from "expo-font";
@@ -14,6 +7,7 @@ import { Link } from "expo-router";
 import { useFonts } from "expo-font";
 import { startPageData } from "../Data/startUpData";
 import OnBoarding from "../components/onBoarding";
+import Button from "../components/Button";
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -21,6 +15,7 @@ SplashScreen.preventAutoHideAsync();
 export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [renderButton, setRenderButton] = useState(true);
 
   const [fontsLoaded] = useFonts({
     "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
@@ -97,30 +92,69 @@ export default function App() {
         snapToInterval={SCREEN_WIDTH}
         snapToAlignment="start"
         scrollEnabled={false}
-        // onScroll={(event) => {
-        //   const { contentOffset } = event.nativeEvent;
-        //   const currentIndex = Math.round(contentOffset.x / SCREEN_WIDTH);
-        //   flatListRef.current.scrollPosition = currentIndex;
-        // }}
       />
-      <View>
-        <View></View>
-        <View></View>
-        <View></View>
+      <View style={styles.dotContainer}>
+        <View style={styles.dot(currentIndex, 0)}></View>
+        <View style={styles.dot(currentIndex, 1)}></View>
+        <View style={styles.dot(currentIndex, 2)}></View>
       </View>
-      <View>
-        <Button title="Back" onPress={handlePrev} />
-        <Button title="Next" onPress={handleNext} />
-        <Button title="Get Started" onPress={handleGetStarted} />
+      <View style={styles.navContainer(currentIndex)}>
+        {currentIndex === 1 ? (
+          <Button
+            title="Back"
+            onPress={handlePrev}
+            styleMain={{ width: 130, paddingHorizontal: 3 }}
+            styleTitle={{}}
+          />
+        ) : null}
+        {currentIndex === 0 || currentIndex === 1 ? (
+          <Button
+            title="Next"
+            onPress={handleNext}
+            styleMain={{ width: 130, paddingHorizontal: 3 }}
+          />
+        ) : null}
+        {currentIndex == 2 ? (
+          <Button
+            title="Get Started"
+            onPress={handleGetStarted}
+            styleMain={{ width: "100%" }}
+          />
+        ) : null}
       </View>
-      {/* <Link href="/Home">home</Link> */}
     </View>
   );
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    borderWidth: 2,
-    borderColor: "red",
+    position: "relative",
   },
+  dotContainer: {
+    position: "absolute",
+    top: "52%",
+    right: "50%",
+    left: "40%",
+    width: "100%",
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 2,
+  },
+  dot: (active, index) => ({
+    width: active == index ? 32 : 20,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: active == index ? "green" : "gray",
+  }),
+  navContainer: (currentIndex) => ({
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
+    width: "100%",
+    // height: 50,
+    paddingHorizontal: 10,
+    marginVertical: 10,
+  }),
 });
