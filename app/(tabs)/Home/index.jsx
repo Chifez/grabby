@@ -134,20 +134,20 @@ const Home = () => {
           />
         </View>
         {/* Start of best seller section */}
-        {/* <View style={styles.bestSellerContainer}> */}
-        <View style={styles.categoryMain}>
-          <Text style={styles.categoryText}>Best Seller</Text>
+        <View style={styles.bestSellerContainer}>
+          <View style={styles.categoryMain}>
+            <Text style={styles.categoryText}>Best Seller</Text>
+          </View>
+          <FlatList
+            vertical
+            data={BestSellerData}
+            contentContainerStyle={{ paddingBottom: 340 }}
+            renderItem={({ item, index }) => (
+              <BestSellerCard item={item} key={item.id} />
+            )}
+            keyExtractor={(item) => item.id}
+          />
         </View>
-        <FlatList
-          vertical
-          data={BestSellerData}
-          contentContainerStyle={{ paddingBottom: 340 }}
-          renderItem={({ item, index }) => (
-            <BestSellerCard item={item} key={item.id} />
-          )}
-          keyExtractor={(item) => item.id}
-        />
-        {/* </View> */}
       </ScrollView>
     </SafeAreaView>
   );

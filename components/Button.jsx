@@ -23,8 +23,8 @@ const styles = StyleSheet.create({
     borderRadius: 12,
   },
   text: {
-    fontFamily: "Inter-Reg",
-    fontWeight: 700,
+    fontFamily: "Inter-Mid",
+    fontWeight: 600,
     color: "white",
     fontSize: 24,
   },
