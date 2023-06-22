@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-// import { CheckBox } from "react-native-web";
+
 
 const SignIn = () => {
   const [isChecked, setIsChecked] = useState(true);

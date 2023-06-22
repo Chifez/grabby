@@ -80,7 +80,7 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    router.push("Auth");
+    router.push("Home");
   };
 
   return (
