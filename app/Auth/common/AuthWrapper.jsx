@@ -13,11 +13,10 @@ const AuthWrapper = ({ items }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    display: "flex",
-    flexDirection: "column",
+    // display: "flex",
+    // flexDirection: "column",
     paddingHorizontal: 10,
-    borderColor: "green",
-    borderWidth: 2,
+    paddingTop: 20,
   },
 });
 

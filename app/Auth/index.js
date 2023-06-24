@@ -8,45 +8,34 @@ import {
   Dimensions,
 } from "react-native";
 import { useRouter } from "expo-router";
-import React, { useState, useRef } from "react";
-import Button from "../../components/Button";
+import React, { useState, useRef, useEffect } from "react";
 import { useBoundedStore } from "../../features/store";
 import SignIn from "./tabs/SignIn";
 import SignUp from "./tabs/SignUp";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import AuthWrapper from "./common/AuthWrapper";
+import useTab from "./common/useTab";
+import Tab from "./common/Tab";
 
 const Auth = () => {
-  const [active, setActive] = useState("signin");
-  const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
   const Login = useBoundedStore((state) => state.login);
   const { width, height } = Dimensions.get("window");
-  const flatListRef = useRef(null);
   const SCREEN_WIDTH = width;
+  const { handleToggleTab, flatListRef, active, clicked } = useTab();
 
   const authPages = [
     {
       id: 1,
-      page: <SignIn />,
+      page: <SignIn handleToggleTab={handleToggleTab} />,
     },
     {
       id: 2,
-      page: <SignUp />,
+      page: <SignUp handleToggleTab={handleToggleTab} />,
     },
   ];
   const handleLogin = () => {
     Login();
     router.push("Home");
-  };
-  const handleToggleTab = (page) => {
-    flatListRef.current.scrollToIndex({
-      index: currentIndex === 0 ? 1 : 0,
-      animated: true,
-    });
-    setCurrentIndex(currentIndex == 0 ? 1 : 0);
-    console.log(page, currentIndex);
-    return setActive(page);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -61,22 +50,25 @@ const Auth = () => {
         {active == "signin" ? "Welcome to Grabby" : "Join us at Grabby"}
       </Text>
       <View style={styles.tabsContainer}>
-        <View style={styles.tab(active, "signin")}>
-          <TouchableOpacity onPress={() => handleToggleTab("signin")}>
-            <Text style={styles.Text(active, "signin")}>Sign In</Text>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.tab(active, "signup")}>
-          <TouchableOpacity onPress={() => handleToggleTab("signup")}>
-            <Text style={styles.Text(active, "signup")}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
+        <Tab
+          title="Sign In"
+          page="signin"
+          handleToggleTab={handleToggleTab}
+          active={active}
+          clicked={clicked}
+        />
+        <Tab
+          title="Sign Up"
+          page="signup"
+          handleToggleTab={handleToggleTab}
+          active={active}
+          clicked={clicked}
+        />
       </View>
       <View>
         <FlatList
           ref={flatListRef}
           horizontal
-          gap={5}
           data={authPages}
           renderItem={({ item }) => <AuthWrapper items={item} key={item.id} />}
           keyExtractor={(item) => item.id}
@@ -118,6 +110,7 @@ const styles = StyleSheet.create({
     fontWeight: 600,
     paddingHorizontal: 10,
     marginRight: "auto",
+    paddingVertical: 10,
   },
   tabsContainer: {
     display: "flex",
@@ -127,21 +120,21 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingHorizontal: 10,
   },
-  tab: (active, page) => ({
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    borderBottomWidth: 4,
-    borderColor: active == page ? "green" : "#2C8E4E33",
-    width: "50%",
-    paddingVertical: 10,
-  }),
-  Text: (active, page) => ({
-    fontFamily: "Inter-Mid",
-    fontSize: 20,
-    fontWeight: 700,
-    color: active == page ? "green" : "#2C8E4E33",
-  }),
+  // tab: (active, page) => ({
+  //   display: "flex",
+  //   alignItems: "center",
+  //   justifyContent: "center",
+  //   borderBottomWidth: 4,
+  //   borderColor: active == page ? "green" : "#2C8E4E33",
+  //   width: "50%",
+  //   paddingVertical: 10,
+  // }),
+  // Text: (active, page) => ({
+  //   fontFamily: "Inter-Mid",
+  //   fontSize: 20,
+  //   fontWeight: 700,
+  //   color: active == page ? "green" : "#2C8E4E33",
+  // }),
 });
 
 export default Auth;

@@ -6,27 +6,28 @@ import { Link } from "expo-router";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
+import InputField from "../common/InputField";
 
-const SignIn = () => {
+const SignIn = ({ handleToggleTab }) => {
   const [isChecked, setIsChecked] = useState(true);
   const handleLogin = () => {};
   return (
     <View style={styles.container}>
       <View>
-        <TextInput type="text" placeholder="Email" style={styles.input} />
-        <TextInput placeholder="Password" style={styles.input} />
+        <InputField placeholder="Email" />
+        <InputField placeholder="Password" secure={true} />
       </View>
       <View style={styles.fgContainer}>
         <View style={styles.rmContainer}>
           <CheckBox
             style={styles.checkbox}
             value={isChecked}
-            onPress={() => setIsChecked(!isChecked)}
+            onValueChange={() => setIsChecked(!isChecked)}
             color={isChecked ? "green" : undefined}
           />
           <Text style={styles.rmText}>Remember me</Text>
         </View>
-        <Link href="" style={styles.rmText}>
+        <Link href="Auth/ForgotPassword" style={styles.rmText}>
           Forgot Password?
         </Link>
       </View>
@@ -47,7 +48,13 @@ const SignIn = () => {
       </View>
       <View style={styles.footercontainer}>
         <Text style={styles.footerText}>Don't have an account?</Text>
-        <Text style={[styles.footerText, { color: "green" }]}> Sign Up</Text>
+        <Text
+          style={[styles.footerText, { color: "green" }]}
+          onPress={() => handleToggleTab("signup")}
+        >
+          {" "}
+          Sign Up
+        </Text>
       </View>
     </View>
   );
@@ -57,24 +64,14 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    // width: "100%",
+    // marginVertical: 10,
   },
-  input: {
-    padding: 15,
-    borderColor: "#2C8E4E",
-    borderWidth: 1,
-    borderRadius: 10,
-    marginVertical: 10,
-    fontSize: 20,
-    fontFamily: "Roboto",
-  },
-  password: {},
   fgContainer: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: 15,
+    marginVertical: 10,
   },
   rmContainer: {
     display: "flex",
