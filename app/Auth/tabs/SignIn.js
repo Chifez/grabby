@@ -7,7 +7,6 @@ import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 
-
 const SignIn = () => {
   const [isChecked, setIsChecked] = useState(true);
   const handleLogin = () => {};
@@ -22,6 +21,7 @@ const SignIn = () => {
           <CheckBox
             style={styles.checkbox}
             value={isChecked}
+            onPress={() => setIsChecked(!isChecked)}
             color={isChecked ? "green" : undefined}
           />
           <Text style={styles.rmText}>Remember me</Text>
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     height: "100%",
-    width: "100%",
+    // width: "100%",
   },
   input: {
     padding: 15,
@@ -96,8 +96,6 @@ const styles = StyleSheet.create({
   orContainer: {
     position: "relative",
     width: "100%",
-    // borderColor: "red",
-    // borderWidth: 2,
     paddingVertical: 18,
   },
   dash: {

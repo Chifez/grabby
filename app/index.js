@@ -80,7 +80,11 @@ export default function App() {
   };
 
   const handleGetStarted = () => {
-    router.push("Home");
+    if (auth) {
+      router.push("Home");
+    } else {
+      router.push("Auth");
+    }
   };
 
   return (
@@ -128,7 +132,6 @@ export default function App() {
           />
         ) : null}
       </View>
-      <Text>{auth}</Text>
     </View>
   );
 }

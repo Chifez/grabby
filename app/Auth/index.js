@@ -1,23 +1,51 @@
-import { View, Text, StyleSheet, SafeAreaView, Image } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  Image,
+  FlatList,
+  Dimensions,
+} from "react-native";
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Button from "../../components/Button";
 import { useBoundedStore } from "../../features/store";
 import SignIn from "./tabs/SignIn";
 import SignUp from "./tabs/SignUp";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import AuthWrapper from "./common/AuthWrapper";
 
 const Auth = () => {
   const [active, setActive] = useState("signin");
+  const [currentIndex, setCurrentIndex] = useState(0);
   const router = useRouter();
   const Login = useBoundedStore((state) => state.login);
+  const { width, height } = Dimensions.get("window");
+  const flatListRef = useRef(null);
+  const SCREEN_WIDTH = width;
 
+  const authPages = [
+    {
+      id: 1,
+      page: <SignIn />,
+    },
+    {
+      id: 2,
+      page: <SignUp />,
+    },
+  ];
   const handleLogin = () => {
     Login();
     router.push("Home");
   };
   const handleToggleTab = (page) => {
-    console.log(page);
+    flatListRef.current.scrollToIndex({
+      index: currentIndex === 0 ? 1 : 0,
+      animated: true,
+    });
+    setCurrentIndex(currentIndex == 0 ? 1 : 0);
+    console.log(page, currentIndex);
     return setActive(page);
   };
   return (
@@ -44,14 +72,19 @@ const Auth = () => {
           </TouchableOpacity>
         </View>
       </View>
-      {/* <Button
-        title="Login"
-        onPress={() => handleLogin()}
-        styleMain={{ paddingVertical: 5 }}
-        styleTitle={{ fontSize: 16 }}
-      /> */}
-      {active == "signin" && <SignIn />}
-      {active == "signup" && <SignUp />}
+      <View>
+        <FlatList
+          ref={flatListRef}
+          horizontal
+          gap={5}
+          data={authPages}
+          renderItem={({ item }) => <AuthWrapper items={item} key={item.id} />}
+          keyExtractor={(item) => item.id}
+          snapToInterval={SCREEN_WIDTH}
+          snapToAlignment="start"
+          scrollEnabled={false}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -59,14 +92,10 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     height: "100%",
+    width: "100%",
     flexDirection: "column",
     alignItems: "center",
-    // justifyContent: "center",
     paddingTop: 50,
-    paddingHorizontal: 10,
-    gap: 10,
-    // borderWidth: 2,
-    // borderColor: "red",
   },
   logoContainer: {
     display: "flex",
@@ -87,6 +116,7 @@ const styles = StyleSheet.create({
     fontFamily: "Inter-Mid",
     fontSize: 30,
     fontWeight: 600,
+    paddingHorizontal: 10,
     marginRight: "auto",
   },
   tabsContainer: {
@@ -95,6 +125,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     width: "100%",
+    paddingHorizontal: 10,
   },
   tab: (active, page) => ({
     display: "flex",

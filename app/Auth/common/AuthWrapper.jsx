@@ -1,11 +1,13 @@
 import { View, Text, StyleSheet, Dimensions } from "react-native";
 import React from "react";
 
-const SignUp = () => {
+const AuthWrapper = ({ items }) => {
   const { width } = Dimensions.get("window");
+
+  const { page } = items;
   return (
     <View style={[styles.container, { width }]}>
-      <Text>SignUp</Text>
+      <>{page}</>
     </View>
   );
 };
@@ -13,9 +15,10 @@ const styles = StyleSheet.create({
   container: {
     display: "flex",
     flexDirection: "column",
-    borderColor: "red",
+    paddingHorizontal: 10,
+    borderColor: "green",
     borderWidth: 2,
   },
 });
 
-export default SignUp;
+export default AuthWrapper;
