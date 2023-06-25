@@ -108,19 +108,19 @@ export default function App() {
         <View style={styles.dot(currentIndex, 2)}></View>
       </View>
       <View style={styles.navContainer(currentIndex)}>
-        {/* {currentIndex === 1 ? (
+        {currentIndex === 1 ? (
           <Button
             title="Back"
             onPress={handlePrev}
-            styleMain={{ width: 130, paddingHorizontal: 3 }}
+            styleMain={{ width: 120, paddingHorizontal: 3 }}
             styleTitle={{}}
           />
-        ) : null} */}
+        ) : null}
         {currentIndex === 0 || currentIndex === 1 ? (
           <Button
             title="Next"
             onPress={handleNext}
-            styleMain={{ width: 130, paddingHorizontal: 3 }}
+            styleMain={{ width: 120, paddingHorizontal: 3 }}
           />
         ) : null}
         {currentIndex == 2 ? (
@@ -161,11 +161,11 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
-    // justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
-    justifyContent: "flex-end",
+    justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
+    // justifyContent: "flex-end",
 
     width: "100%",
-    paddingHorizontal: 10,
-    marginVertical: 10,
+    paddingHorizontal: 20,
+    marginVertical: 20,
   }),
 });

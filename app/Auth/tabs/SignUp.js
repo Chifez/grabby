@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, Dimensions } from "react-native";
+import { View, Text, StyleSheet } from "react-native";
 import InputField from "../common/InputField";
 import React, { useState } from "react";
 import CheckBox from "expo-checkbox";
@@ -6,11 +6,14 @@ import { ScrollView } from "react-native-gesture-handler";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import useTab from "../common/useTab";
+import { Link, useRouter } from "expo-router";
 
 const SignUp = ({ handleToggleTab, active }) => {
   const [isChecked, setIsChecked] = useState(true);
+  const router = useRouter();
+  const handleLogin = () => {
+    router.push("Auth/verify");
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
@@ -43,9 +46,10 @@ const SignUp = ({ handleToggleTab, active }) => {
           </Text>
         </View>
         <Button
-          title="sign"
+          title="Sign Up"
           onPress={() => handleLogin()}
           styleMain={{ marginVertical: 15 }}
+          styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}
         />
         <View style={styles.orContainer}>
           <View style={styles.dash}></View>

@@ -1,41 +1,85 @@
 import { View, Text, StyleSheet } from "react-native";
 import React, { useState } from "react";
-import { TextInput } from "react-native-gesture-handler";
 import CheckBox from "expo-checkbox";
 import { Link } from "expo-router";
 import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import InputField from "../common/InputField";
+import { useRouter } from "expo-router";
+import { Formik } from "formik";
+import { SignInValidation } from "../common/validationSchema";
 
 const SignIn = ({ handleToggleTab }) => {
   const [isChecked, setIsChecked] = useState(true);
-  const handleLogin = () => {};
+  const InitialValue = {
+    email: "",
+    password: "",
+  };
+  const router = useRouter();
+  // const handleLogin = () => {
+  //   router.push("Home");
+  // };
   return (
     <View style={styles.container}>
-      <View>
-        <InputField placeholder="Email" />
-        <InputField placeholder="Password" secure={true} />
-      </View>
-      <View style={styles.fgContainer}>
-        <View style={styles.rmContainer}>
-          <CheckBox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={() => setIsChecked(!isChecked)}
-            color={isChecked ? "green" : undefined}
-          />
-          <Text style={styles.rmText}>Remember me</Text>
-        </View>
-        <Link href="Auth/ForgotPassword" style={styles.rmText}>
-          Forgot Password?
-        </Link>
-      </View>
-      <Button
-        title="sign"
-        onPress={() => handleLogin()}
-        styleMain={{ marginVertical: 15 }}
-      />
+      <Formik
+        initialValues={InitialValue}
+        validationSchema={SignInValidation}
+        onSubmit={(values) => {
+          // Handle form submission
+          console.log(values);
+          router.push("Home");
+        }}
+      >
+        {({
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          values,
+          errors,
+          touched,
+        }) => (
+          <>
+            <View>
+              <InputField
+                placeholder="Email"
+                value={values.email}
+                onChangeText={handleChange("email")}
+                error={errors.email}
+                touched={touched.email}
+              />
+              <InputField
+                placeholder="Password"
+                value={values.password}
+                onChangeText={handleChange("password")}
+                error={errors.password}
+                touched={touched.password}
+                secure={true}
+              />
+            </View>
+            <View style={styles.fgContainer}>
+              <View style={styles.rmContainer}>
+                <CheckBox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={() => setIsChecked(!isChecked)}
+                  color={isChecked ? "green" : undefined}
+                />
+                <Text style={styles.rmText}>Remember me</Text>
+              </View>
+              <Link href="Auth/ForgotPassword" style={styles.rmText}>
+                Forgot Password?
+              </Link>
+            </View>
+            <Button
+              title="Sign In"
+              onPress={handleSubmit}
+              styleMain={{ marginVertical: 15 }}
+              styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}
+            />
+          </>
+        )}
+      </Formik>
       <View style={styles.orContainer}>
         <View style={styles.dash}></View>
         <Text style={styles.orText}>OR</Text>
