@@ -7,50 +7,106 @@ import Button from "../../../components/Button";
 import { FontAwesome5 } from "@expo/vector-icons";
 import { AntDesign } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
+import { Formik } from "formik";
+import { SignupValidation } from "../common/validationSchema";
 
 const SignUp = ({ handleToggleTab, active }) => {
   const [isChecked, setIsChecked] = useState(true);
   const router = useRouter();
-  const handleLogin = () => {
-    router.push("Auth/verify");
+  const InitialValue = {
+    name: "",
+    email: "",
+    number: "",
+    password: "",
   };
+
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
-        <View>
-          <InputField placeholder="Full name" />
-          <InputField placeholder="Email" />
-          <InputField placeholder="Phone Number" />
-          <InputField placeholder="Password" secure={true} />
-        </View>
-        <View style={styles.rmContainer}>
-          <CheckBox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={() => setIsChecked(!isChecked)}
-            color={isChecked ? "green" : undefined}
-          />
-          <Text style={styles.rmText}>
-            I agree to the terms of service and privacy policy
-          </Text>
-        </View>
-        <View style={styles.rmContainer}>
-          <CheckBox
-            style={styles.checkbox}
-            value={isChecked}
-            onValueChange={() => setIsChecked(!isChecked)}
-            color={isChecked ? "green" : undefined}
-          />
-          <Text style={styles.rmText}>
-            I agree to receiving newsletter from grabby on updates.
-          </Text>
-        </View>
-        <Button
-          title="Sign Up"
-          onPress={() => handleLogin()}
-          styleMain={{ marginVertical: 15 }}
-          styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}
-        />
+        <Formik
+          initialValues={InitialValue}
+          validationSchema={SignupValidation}
+          onSubmit={(values) => {
+            // Handle form submission
+            console.log(values);
+            router.push("Auth/verify");
+          }}
+        >
+          {({
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched,
+          }) => (
+            <>
+              <View>
+                <InputField
+                  placeholder="Full name"
+                  value={values.name}
+                  onChangeText={handleChange("name")}
+                  error={errors.name}
+                  touched={touched.name}
+                />
+
+                <InputField
+                  placeholder="Email"
+                  value={values.email}
+                  onChangeText={handleChange("email")}
+                  error={errors.email}
+                  touched={touched.email}
+                />
+
+                <InputField
+                  placeholder="Phone number"
+                  value={values.number}
+                  onChangeText={handleChange("number")}
+                  error={errors.number}
+                  touched={touched.number}
+                />
+
+                <InputField
+                  placeholder="Password"
+                  value={values.password}
+                  onChangeText={handleChange("password")}
+                  error={errors.password}
+                  touched={touched.password}
+                  secure={true}
+                />
+              </View>
+
+              <View style={styles.rmContainer}>
+                <CheckBox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={() => setIsChecked(!isChecked)}
+                  color={isChecked ? "green" : undefined}
+                />
+                <Text style={styles.rmText}>
+                  I agree to the terms of service and privacy policy
+                </Text>
+              </View>
+              <View style={styles.rmContainer}>
+                <CheckBox
+                  style={styles.checkbox}
+                  value={isChecked}
+                  onValueChange={() => setIsChecked(!isChecked)}
+                  color={isChecked ? "green" : undefined}
+                />
+                <Text style={styles.rmText}>
+                  I agree to receiving newsletter from grabby on updates.
+                </Text>
+              </View>
+              <Button
+                title="Sign Up"
+                onPress={handleSubmit}
+                styleMain={{ marginVertical: 15 }}
+                styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}
+              />
+            </>
+          )}
+        </Formik>
         <View style={styles.orContainer}>
           <View style={styles.dash}></View>
           <Text style={styles.orText}>OR</Text>

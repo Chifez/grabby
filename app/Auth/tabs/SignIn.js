@@ -12,14 +12,13 @@ import { SignInValidation } from "../common/validationSchema";
 
 const SignIn = ({ handleToggleTab }) => {
   const [isChecked, setIsChecked] = useState(true);
+  const router = useRouter();
+
   const InitialValue = {
     email: "",
     password: "",
   };
-  const router = useRouter();
-  // const handleLogin = () => {
-  //   router.push("Home");
-  // };
+
   return (
     <View style={styles.container}>
       <Formik
