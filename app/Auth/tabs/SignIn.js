@@ -12,11 +12,39 @@ import { SignInValidation } from "../common/validationSchema";
 
 const SignIn = ({ handleToggleTab }) => {
   const [isChecked, setIsChecked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [iserror, setIsError] = useState("");
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
   const InitialValue = {
     email: "",
     password: "",
+  };
+
+  const handleSignIn = async (values) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email: values.email,
+        password: values.password,
+      });
+      if (error) {
+        console.log(error);
+        setIsLoading(false);
+        setIsError(error.message);
+        return alert(iserror);
+      } else {
+        setUser(data);
+        setIsLoading(false);
+        console.log(data, user);
+        return router.push("Home");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(error.message);
+      return alert(iserror);
+    }
   };
 
   return (
@@ -25,9 +53,7 @@ const SignIn = ({ handleToggleTab }) => {
         initialValues={InitialValue}
         validationSchema={SignInValidation}
         onSubmit={(values) => {
-          // Handle form submission
-          console.log(values);
-          router.push("Home");
+          handleSignIn(values);
         }}
       >
         {({
@@ -72,6 +98,7 @@ const SignIn = ({ handleToggleTab }) => {
             </View>
             <Button
               title="Sign In"
+              disabled={isLoading}
               onPress={handleSubmit}
               styleMain={{ marginVertical: 15 }}
               styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}

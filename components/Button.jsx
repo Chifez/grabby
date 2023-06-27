@@ -1,14 +1,20 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import React from "react";
+import { ActivityIndicator } from "react-native";
 
-const Button = ({ onPress, title, styleMain, styleTitle }) => {
+const Button = ({ onPress, title, styleMain, styleTitle, disabled }) => {
   return (
     <TouchableOpacity
+      disabled={disabled}
       activeOpacity={0.7}
       onPress={onPress}
       style={[styles.container, styleMain]}
     >
-      <Text style={[styles.text, styleTitle]}>{title}</Text>
+      {disabled ? (
+        <ActivityIndicator size="large" />
+      ) : (
+        <Text style={[styles.text, styleTitle]}>{title}</Text>
+      )}
     </TouchableOpacity>
   );
 };

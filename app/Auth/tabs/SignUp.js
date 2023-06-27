@@ -9,9 +9,13 @@ import { AntDesign } from "@expo/vector-icons";
 import { Link, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { SignupValidation } from "../common/validationSchema";
+import { supabase } from "../../../lib/supabase";
 
 const SignUp = ({ handleToggleTab, active }) => {
   const [isChecked, setIsChecked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [iserror, setIsError] = useState("");
+  const [user, setUser] = useState(null);
   const router = useRouter();
   const InitialValue = {
     name: "",
@@ -19,7 +23,30 @@ const SignUp = ({ handleToggleTab, active }) => {
     number: "",
     password: "",
   };
-
+  const handleSignup = async (values) => {
+    setIsLoading(true);
+    try {
+      const { data, error } = await supabase.auth.signUp({
+        email: values.email,
+        password: values.password,
+      });
+      if (error) {
+        console.log(error);
+        setIsLoading(false);
+        setIsError(error.message);
+        return alert(error.message);
+      } else {
+        setUser(data);
+        setIsLoading(false);
+        console.log(data, user);
+        return router.push("Auth/verify");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      setIsError(error.message);
+      return alert(error.message);
+    }
+  };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
@@ -27,9 +54,7 @@ const SignUp = ({ handleToggleTab, active }) => {
           initialValues={InitialValue}
           validationSchema={SignupValidation}
           onSubmit={(values) => {
-            // Handle form submission
-            console.log(values);
-            router.push("Auth/verify");
+            handleSignup(values);
           }}
         >
           {({
@@ -100,6 +125,7 @@ const SignUp = ({ handleToggleTab, active }) => {
               </View>
               <Button
                 title="Sign Up"
+                disabled={isLoading}
                 onPress={handleSubmit}
                 styleMain={{ marginVertical: 15 }}
                 styleTitle={{ fontSize: 20, fontWeight: 700, padding: 4 }}
@@ -136,6 +162,24 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     paddingBottom: 180,
+  },
+  loading: {
+    flex: 1,
+    position: "absolute",
+    zIndex: 5,
+    // height: "100%",
+    // width: "100%",
+    // display: "flex",
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+    backgroundColor: "transparent",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  activity: {
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
   rmContainer: {
     display: "flex",
