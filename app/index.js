@@ -18,6 +18,7 @@ export default function App() {
   const [appIsReady, setAppIsReady] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [renderButton, setRenderButton] = useState(true);
+  const loadAuth = useBoundedStore((state) => state.loadUser);
   const auth = useBoundedStore((state) => state.user);
 
   const router = useRouter();
@@ -39,6 +40,7 @@ export default function App() {
         console.warn(e);
       } finally {
         setAppIsReady(true);
+        loadAuth(router);
       }
     }
     prepare();

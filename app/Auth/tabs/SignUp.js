@@ -10,12 +10,15 @@ import { Link, useRouter } from "expo-router";
 import { Formik } from "formik";
 import { SignupValidation } from "../common/validationSchema";
 import { supabase } from "../../../lib/supabase";
+import { useBoundedStore } from "../../../features/store";
 
 const SignUp = ({ handleToggleTab, active }) => {
   const [isChecked, setIsChecked] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [iserror, setIsError] = useState("");
-  const [user, setUser] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [iserror, setIsError] = useState("");
+  // const [user, setUser] = useState(null);
+  const handleSignup = useBoundedStore((state) => state.createUser);
+  const isLoading = useBoundedStore((state) => state.loading);
   const router = useRouter();
   const InitialValue = {
     name: "",
@@ -23,30 +26,30 @@ const SignUp = ({ handleToggleTab, active }) => {
     number: "",
     password: "",
   };
-  const handleSignup = async (values) => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signUp({
-        email: values.email,
-        password: values.password,
-      });
-      if (error) {
-        console.log(error);
-        setIsLoading(false);
-        setIsError(error.message);
-        return alert(error.message);
-      } else {
-        setUser(data);
-        setIsLoading(false);
-        console.log(data, user);
-        return router.push("Auth/verify");
-      }
-    } catch (error) {
-      setIsLoading(false);
-      setIsError(error.message);
-      return alert(error.message);
-    }
-  };
+  // const handleSignup = async (values) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const { data, error } = await supabase.auth.signUp({
+  //       email: values.email,
+  //       password: values.password,
+  //     });
+  //     if (error) {
+  //       console.log(error);
+  //       setIsLoading(false);
+  //       setIsError(error.message);
+  //       return alert(error.message);
+  //     } else {
+  //       setUser(data);
+  //       setIsLoading(false);
+  //       console.log(data, user);
+  //       return router.push("Auth/verify");
+  //     }
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     setIsError(error.message);
+  //     return alert(error.message);
+  //   }
+  // };
   return (
     <ScrollView showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
@@ -54,7 +57,7 @@ const SignUp = ({ handleToggleTab, active }) => {
           initialValues={InitialValue}
           validationSchema={SignupValidation}
           onSubmit={(values) => {
-            handleSignup(values);
+            handleSignup(values, router);
           }}
         >
           {({

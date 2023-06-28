@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
     backgroundColor: "white",
     position: "relative",
     overflow: "hidden",
+    height: 150,
   },
   leftContainer: {
     display: "flex",

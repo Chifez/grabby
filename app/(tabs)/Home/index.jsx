@@ -24,11 +24,30 @@ import BestSellerCard from "./common/card/BestSellerCard";
 import { useState, useRef } from "react";
 import { Dimensions } from "react-native";
 import { styles } from "./home.style";
+import SearchModal from "../../../components/searchModal";
 
 const Home = () => {
   const [isactive, setIsActive] = useState(0);
+  const [isModalVisible, setModalVisible] = useState(false);
+  const [isInputFocused, setInputFocused] = useState(false);
+
   const itemWidth = Dimensions.get("window").width - 230; //chang later
 
+  const closeModal = () => {
+    setModalVisible(false);
+    console.log(isInputFocused, isModalVisible);
+  };
+
+  const handleInputFocus = () => {
+    setInputFocused(true);
+    setModalVisible(true);
+    console.log(isInputFocused, isModalVisible);
+  };
+
+  const handleInputBlur = () => {
+    setInputFocused(false);
+    console.log(isInputFocused, isModalVisible);
+  };
   const onScroll = (event) => {
     const offsetX = event.nativeEvent.contentOffset.x;
     const index = Math.floor(offsetX / itemWidth);
@@ -50,6 +69,9 @@ const Home = () => {
         <View style={styles.searchBox}>
           <EvilIcons name="search" size={24} color="black" />
           <TextInput
+            onPressIn={handleInputFocus}
+            // onFocus={handleInputFocus}
+            // onBlur={handleInputBlur}
             placeholder="search for a vendor or product here"
             style={styles.searchInput}
           />
@@ -151,18 +173,18 @@ const Home = () => {
             <View style={styles.categoryMain}>
               <Text style={styles.categoryText}>Best Seller</Text>
             </View>
-            <FlatList
-              vertical
-              data={BestSellerData}
-              contentContainerStyle={{ paddingBottom: 340 }}
-              renderItem={({ item, index }) => (
+            <View>
+              {BestSellerData.map((item) => (
                 <BestSellerCard item={item} key={item.id} />
-              )}
-              keyExtractor={(item) => item.id}
-            />
+              ))}
+            </View>
           </View>
         </View>
       </ScrollView>
+      <SearchModal
+        isVisible={isModalVisible && isInputFocused}
+        onClose={closeModal}
+      />
     </SafeAreaView>
   );
 };

@@ -9,12 +9,16 @@ import InputField from "../common/InputField";
 import { useRouter } from "expo-router";
 import { Formik } from "formik";
 import { SignInValidation } from "../common/validationSchema";
+import { useBoundedStore } from "../../../features/store";
 
 const SignIn = ({ handleToggleTab }) => {
   const [isChecked, setIsChecked] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const [iserror, setIsError] = useState("");
-  const [user, setUser] = useState(null);
+  // const [isLoading, setIsLoading] = useState(false);
+  // const [iserror, setIsError] = useState("");
+  // const [user, setUser] = useState(null);
+
+  const handleSignIn = useBoundedStore((state) => state.loginUser);
+  const isLoading = useBoundedStore((state) => state.loading);
   const router = useRouter();
 
   const InitialValue = {
@@ -22,30 +26,30 @@ const SignIn = ({ handleToggleTab }) => {
     password: "",
   };
 
-  const handleSignIn = async (values) => {
-    setIsLoading(true);
-    try {
-      const { data, error } = await supabase.auth.signInWithPassword({
-        email: values.email,
-        password: values.password,
-      });
-      if (error) {
-        console.log(error);
-        setIsLoading(false);
-        setIsError(error.message);
-        return alert(iserror);
-      } else {
-        setUser(data);
-        setIsLoading(false);
-        console.log(data, user);
-        return router.push("Home");
-      }
-    } catch (error) {
-      setIsLoading(false);
-      setIsError(error.message);
-      return alert(iserror);
-    }
-  };
+  // const handleSignIn = async (values) => {
+  //   setIsLoading(true);
+  //   try {
+  //     const { data, error } = await supabase.auth.signInWithPassword({
+  //       email: values.email,
+  //       password: values.password,
+  //     });
+  //     if (error) {
+  //       console.log(error);
+  //       setIsLoading(false);
+  //       setIsError(error.message);
+  //       return alert(iserror);
+  //     } else {
+  //       setUser(data);
+  //       setIsLoading(false);
+  //       console.log(data, user);
+  //       return router.push("Home");
+  //     }
+  //   } catch (error) {
+  //     setIsLoading(false);
+  //     setIsError(error.message);
+  //     return alert(iserror);
+  //   }
+  // };
 
   return (
     <View style={styles.container}>
@@ -53,7 +57,7 @@ const SignIn = ({ handleToggleTab }) => {
         initialValues={InitialValue}
         validationSchema={SignInValidation}
         onSubmit={(values) => {
-          handleSignIn(values);
+          handleSignIn(values, router);
         }}
       >
         {({

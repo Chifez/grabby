@@ -73,5 +73,7 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 700,
   },
-  bestSellerContainer: {},
+  bestSellerContainer: {
+    paddingBottom: 150,
+  },
 });
