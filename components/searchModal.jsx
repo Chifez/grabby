@@ -6,7 +6,7 @@ import {
   Text,
   FlatList,
 } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { EvilIcons } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -17,9 +17,11 @@ import Animated, {
   event,
   useAnimatedStyle,
   useSharedValue,
+  withSpring,
+  withTiming,
 } from 'react-native-reanimated';
 import { Dimensions } from 'react-native';
-
+let bottomSheetHeight = 0;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SearchModal = ({ isVisible, onClose }) => {
   const translateY = useSharedValue(0);
@@ -30,7 +32,8 @@ const SearchModal = ({ isVisible, onClose }) => {
     })
     .onUpdate((event) => {
       translateY.value = event.translationY + context.value.y;
-      translateY.value = Math.max(translateY.value, SCREEN_HEIGHT);
+      bottomSheetHeight = event.translationY + context.value.y;
+      translateY.value = Math.max(translateY.value, -SCREEN_HEIGHT + 50);
       console.log('event', event.translationY);
     });
 
@@ -39,6 +42,9 @@ const SearchModal = ({ isVisible, onClose }) => {
       transform: [{ translateY: translateY.value }],
     };
   });
+  useEffect(() => {
+    translateY.value = withSpring(-SCREEN_HEIGHT / 1.5);
+  }, []);
   return (
     <Modal
       visible={isVisible}
@@ -66,12 +72,19 @@ const SearchModal = ({ isVisible, onClose }) => {
 
             <FlatList
               data={searchResult}
+              scrollEnabled={true}
+              scrollToEnd={true}
               numColumns={2}
               renderItem={({ item, index }) => (
                 <SearchCard item={item} key={item.id} />
               )}
               keyExtractor={(item) => item.id}
               contentContainerStyle={styles.flatListContainer}
+              style={{
+                height: translateY.value,
+                borderWidth: 5,
+                borderColor: 'red',
+              }}
             />
           </Animated.View>
         </GestureDetector>
@@ -93,13 +106,14 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   Scontainer: {
-    flex: 1,
     width: '100%',
-    height: SCREEN_HEIGHT / 1.5, // WORK HAS TO BE DONE HERE
+    // height: SCREEN_HEIGHT, // WORK HAS TO BE DONE HERE
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
     backgroundColor: 'white',
     paddingHorizontal: 3,
+    position: 'absolute',
+    top: SCREEN_HEIGHT,
   },
   searchContainer: {
     display: 'flex',
@@ -123,8 +137,11 @@ const styles = StyleSheet.create({
   searchInput: {
     flex: 1,
   },
+
   flatListContainer: {
     paddingHorizontal: 2,
+    border: 2,
+    borderColor: 'red',
   },
 });
 
