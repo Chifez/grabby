@@ -1,59 +1,61 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet } from 'react-native';
 
 export const styles = StyleSheet.create({
   container: {
     paddingTop: 60,
     paddingHorizontal: 20,
-    fontFamily: "Inter-Black",
+    fontFamily: 'Inter-Black',
   },
   headerContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
   },
   headerLeftName: {
     fontSize: 16,
-    fontFamily: "Inter-Reg",
+    fontFamily: 'Inter-Reg',
   },
   headerLeftBold: {
     fontSize: 18,
     fontWeight: 700,
     paddingVertical: 3,
-    fontFamily: "Inter-Bold",
+    fontFamily: 'Inter-Bold',
   },
   boldColored: {
-    color: "#2C8E4E",
+    color: '#2C8E4E',
   },
   searchContainer: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-
-    alignItems: "center",
-    marginVertical: 20,
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginVertical: 10,
     paddingVertical: 5,
+    paddingHorizontal: 10,
   },
   searchBox: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     gap: 3,
-    alignItems: "center",
-    backgroundColor: "#E5E5E5",
+    alignItems: 'center',
+    backgroundColor: '#E5E5E5',
     paddingHorizontal: 12,
     paddingVertical: 10,
     borderRadius: 10,
-    width: "85%",
+    width: '85%',
   },
   searchInput: {
     flex: 1,
   },
   dotContainer: {
-    display: "flex",
-    flexDirection: "row",
+    display: 'flex',
+    flexDirection: 'row',
     gap: 2,
-    justifyContent: "flex-start",
-    alignItems: "center",
+    justifyContent: 'flex-start',
+    alignItems: 'center',
   },
   dot: {
     width: 10,
@@ -62,18 +64,20 @@ export const styles = StyleSheet.create({
     borderRadius: 10,
   },
   categoryMain: {
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingVertical: 5,
+    paddingHorizontal: 10,
   },
-  categoryText: {
-    fontFamily: "Inter-Reg",
+  mainText: {
+    fontFamily: 'Inter-Bold',
     fontSize: 14,
     fontWeight: 700,
   },
   bestSellerContainer: {
     paddingBottom: 150,
+    paddingHorizontal: 10,
   },
 });

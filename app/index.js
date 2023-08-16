@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState, useRef } from "react";
-import { Text, View, FlatList, Dimensions, StyleSheet } from "react-native";
-import Entypo from "@expo/vector-icons/Entypo";
-import * as SplashScreen from "expo-splash-screen";
-import * as Font from "expo-font";
-import { Link, useRouter } from "expo-router";
-import { useFonts } from "expo-font";
-import { startPageData } from "../Data/startUpData";
-import OnBoarding from "../components/onBoarding";
-import Button from "../components/Button";
-import { ActivityIndicator } from "react-native";
-import { useBoundedStore } from "../features/store";
+import { useCallback, useEffect, useState, useRef } from 'react';
+import { Text, View, FlatList, Dimensions, StyleSheet } from 'react-native';
+import Entypo from '@expo/vector-icons/Entypo';
+import * as SplashScreen from 'expo-splash-screen';
+import * as Font from 'expo-font';
+import { Link, useRouter } from 'expo-router';
+import { useFonts } from 'expo-font';
+import { startPageData } from '../Data/startUpData';
+import OnBoarding from '../components/onBoarding';
+import Button from '../components/Button';
+import { ActivityIndicator } from 'react-native';
+import { useBoundedStore } from '../features/store';
 
 // Keep the splash screen visible while we fetch resources
 SplashScreen.preventAutoHideAsync();
@@ -23,11 +23,11 @@ export default function App() {
 
   const router = useRouter();
   const [fontsLoaded] = useFonts({
-    "Inter-Black": require("../assets/fonts/Inter-Black.ttf"),
-    "Inter-Reg": require("../assets/fonts/Inter-Regular.ttf"),
-    "Inter-Bold": require("../assets/fonts/Inter-Bold.ttf"),
-    "Inter-Mid": require("../assets/fonts/Inter-Medium.ttf"),
-    Roboto: require("../assets/fonts/Roboto-Regular.ttf"),
+    'Inter-Black': require('../assets/fonts/Inter-Black.ttf'),
+    'Inter-Reg': require('../assets/fonts/Inter-Regular.ttf'),
+    'Inter-Bold': require('../assets/fonts/Inter-Bold.ttf'),
+    'Inter-Mid': require('../assets/fonts/Inter-Medium.ttf'),
+    Roboto: require('../assets/fonts/Roboto-Regular.ttf'),
   });
   const flatListRef = useRef(null);
 
@@ -54,13 +54,13 @@ export default function App() {
 
   if (!appIsReady) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
         <ActivityIndicator size="large" color="green" />
       </View>
     );
   }
 
-  const { width, height } = Dimensions.get("window");
+  const { width, height } = Dimensions.get('window');
   const SCREEN_WIDTH = width;
 
   const handleNext = () => {
@@ -83,9 +83,9 @@ export default function App() {
 
   const handleGetStarted = () => {
     if (auth) {
-      router.push("Home");
+      router.push('Home');
     } else {
-      router.push("Auth");
+      router.push('Auth');
     }
   };
 
@@ -129,7 +129,7 @@ export default function App() {
           <Button
             title="Get Started"
             onPress={handleGetStarted}
-            styleMain={{ width: "100%" }}
+            styleMain={{ width: '100%' }}
             styleTitle={{ fontWeight: 700 }}
           />
         ) : null}
@@ -140,33 +140,33 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: "relative",
+    position: 'relative',
   },
   dotContainer: {
-    position: "absolute",
-    top: "52%",
-    right: "50%",
-    left: "40%",
-    width: "100%",
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
+    position: 'absolute',
+    top: '52%',
+    right: '50%',
+    left: '40%',
+    width: '100%',
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     gap: 2,
   },
   dot: (active, index) => ({
     width: active == index ? 32 : 20,
     height: 6,
     borderRadius: 3,
-    backgroundColor: active == index ? "green" : "gray",
+    backgroundColor: active == index ? 'green' : 'gray',
   }),
   navContainer: (currentIndex) => ({
-    display: "flex",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: currentIndex == 1 ? "space-between" : "flex-end",
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: currentIndex == 1 ? 'space-between' : 'flex-end',
     // justifyContent: "flex-end",
 
-    width: "100%",
+    width: '100%',
     paddingHorizontal: 20,
     marginVertical: 20,
   }),

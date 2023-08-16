@@ -1,20 +1,20 @@
-import { supabase } from "../../lib/supabase";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { supabase } from '../../lib/supabase';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const userSlice = (set) => ({
   user: null,
   loading: false,
-  error: "",
+  error: '',
   loadUser: async (router) => {
     set({ loading: true, error: null });
     try {
-      const storedUser = await AsyncStorage.getItem("user");
+      const storedUser = await AsyncStorage.getItem('user');
       if (storedUser) {
         set({ user: JSON.parse(storedUser) });
-        router.push("Home");
+        router.push('Home');
       }
     } catch (error) {
-      console.error("Error loading user:", error.message);
+      console.error('Error loading user:', error.message);
       set({ error: error.message });
     } finally {
       set({ loading: false });
@@ -22,7 +22,7 @@ export const userSlice = (set) => ({
   },
   createUser: async (values, router) => {
     const { email, password } = values;
-    set({ loading: true, error: "" });
+    set({ loading: true, error: '' });
     try {
       const { data, error } = await supabase.auth.signUp({
         email: email,
@@ -37,9 +37,9 @@ export const userSlice = (set) => ({
         set({ user });
         console.log(data, user);
         if (data) {
-          await AsyncStorage.setItem("user", JSON.stringify(data.user));
+          await AsyncStorage.setItem('user', JSON.stringify(data.user));
         }
-        return router.push("Auth/verify");
+        return router.push('Auth/verify');
       }
     } catch (error) {
       set({ error: error.message });
@@ -50,7 +50,7 @@ export const userSlice = (set) => ({
   },
   loginUser: async (values, router) => {
     const { email, password } = values;
-    set({ loading: true, error: "" });
+    set({ loading: true, error: '' });
     try {
       const { data, error } = await supabase.auth.signInWithPassword({
         email: email,
@@ -65,8 +65,8 @@ export const userSlice = (set) => ({
         const user = data.user;
         set({ user });
         console.log(data, user);
-        await AsyncStorage.setItem("user", JSON.stringify(data.user));
-        return router.push("Home");
+        await AsyncStorage.setItem('user', JSON.stringify(data.user));
+        return router.push('Home');
       }
     } catch (error) {
       set({ error: error.message });
@@ -77,12 +77,12 @@ export const userSlice = (set) => ({
   },
 
   logoutUser: async (router) => {
-    set({ loading: true, error: "" });
+    set({ loading: true, error: '' });
     try {
       await supabase.auth.signOut();
-      await AsyncStorage.removeItem("user");
+      await AsyncStorage.removeItem('user');
       set({ user: null });
-      return router.push("Auth");
+      return router.push('Auth');
     } catch (error) {
       set({ error: error.message });
       return alert(error.message);
