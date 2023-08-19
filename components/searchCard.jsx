@@ -11,7 +11,9 @@ const SearchCard = ({ item }) => {
       </View>
       <View style={styles.priceContainer}>
         <View>
-          <Text style={styles.name}>{title}</Text>
+          <Text numberOfLines={1} style={styles.name}>
+            {title}
+          </Text>
           <Text style={styles.category}>{price}</Text>
         </View>
         <AntDesign name="hearto" size={18} color="black" />
@@ -21,31 +23,29 @@ const SearchCard = ({ item }) => {
 };
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    display: 'flex',
     alignItems: 'flex-start',
-    gap: 3,
-    margin: 10,
-    width: 170,
-    height: 220,
+    gap: 2,
+    margin: 5,
+    width: 125,
+    height: 170,
     borderRadius: 15,
     overflow: 'hidden',
   },
   imageContainer: {
     width: '100%',
-    height: 180,
+    height: 130,
     borderRadius: 15,
   },
   image: {
     width: '100%',
     height: '100%',
-    resizeMode: 'stretch',
   },
   priceContainer: {
     display: 'flex',
     flexDirection: 'row',
     alignItems: 'flex-start',
     justifyContent: 'space-between',
+    gap: 2,
     width: '100%',
     paddingHorizontal: 4,
     paddingVertical: 4,
@@ -53,13 +53,14 @@ const styles = StyleSheet.create({
   name: {
     fontFamily: 'Inter-Bold',
     textTransform: 'capitalize',
-    fontSize: 14,
+    fontSize: 12,
+    width: 70,
   },
   category: {
     fontFamily: 'Inter-Reg',
     textTransform: 'capitalize',
     fontWeight: 700,
-    fontSize: 14,
+    fontSize: 12,
     color: 'green',
   },
 });

@@ -53,6 +53,7 @@ const SearchModal = ({ isVisible, onClose }) => {
       <View style={styles.container}>
         <GestureDetector gesture={gesture}>
           <Animated.View style={[styles.Scontainer, rBottomStyle]}>
+            <View style={styles.line} />
             <View style={styles.searchContainer}>
               <Ionicons
                 name="md-chevron-back"
@@ -69,23 +70,22 @@ const SearchModal = ({ isVisible, onClose }) => {
               </View>
               <Ionicons name="options-outline" size={27} color="green" />
             </View>
-
-            <FlatList
-              data={searchResult}
-              scrollEnabled={true}
-              scrollToEnd={true}
-              numColumns={2}
-              renderItem={({ item, index }) => (
-                <SearchCard item={item} key={item.id} />
-              )}
-              keyExtractor={(item) => item.id}
-              contentContainerStyle={styles.flatListContainer}
-              style={{
-                height: translateY.value,
-                borderWidth: 5,
-                borderColor: 'red',
-              }}
-            />
+            <View>
+              <FlatList
+                data={searchResult}
+                scrollEnabled={true}
+                scrollToEnd={true}
+                numColumns={3}
+                renderItem={({ item, index }) => (
+                  <SearchCard item={item} key={item.id} />
+                )}
+                keyExtractor={(item) => item.id}
+                contentContainerStyle={styles.flatListContainer}
+                style={{
+                  height: SCREEN_HEIGHT / 1.3,
+                }}
+              />
+            </View>
           </Animated.View>
         </GestureDetector>
       </View>
@@ -107,13 +107,22 @@ const styles = StyleSheet.create({
   },
   Scontainer: {
     width: '100%',
-    // height: SCREEN_HEIGHT, // WORK HAS TO BE DONE HERE
-    borderTopLeftRadius: 10,
-    borderTopRightRadius: 10,
+    height: SCREEN_HEIGHT, // WORK HAS TO BE DONE HERE
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
     backgroundColor: 'white',
     paddingHorizontal: 3,
     position: 'absolute',
     top: SCREEN_HEIGHT,
+    overflow: 'scroll',
+  },
+  line: {
+    width: 75,
+    height: 5,
+    alignSelf: 'center',
+    backgroundColor: 'lightgray',
+    borderRadius: 3,
+    marginVertical: 10,
   },
   searchContainer: {
     display: 'flex',
@@ -140,8 +149,7 @@ const styles = StyleSheet.create({
 
   flatListContainer: {
     paddingHorizontal: 2,
-    border: 2,
-    borderColor: 'red',
+    paddingHorizontal: 2,
   },
 });
 
