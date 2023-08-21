@@ -23,9 +23,11 @@ import Animated, {
 import { Dimensions } from 'react-native';
 let bottomSheetHeight = 0;
 const SCREEN_HEIGHT = Dimensions.get('window').height;
+
 const SearchModal = ({ isVisible, onClose }) => {
   const translateY = useSharedValue(0);
   const context = useSharedValue({ y: 0 });
+  const MAX_VALUE = -SCREEN_HEIGHT + 50;
   const gesture = Gesture.Pan()
     .onStart(() => {
       context.value = { y: translateY.value };
@@ -33,8 +35,17 @@ const SearchModal = ({ isVisible, onClose }) => {
     .onUpdate((event) => {
       translateY.value = event.translationY + context.value.y;
       bottomSheetHeight = event.translationY + context.value.y;
-      translateY.value = Math.max(translateY.value, -SCREEN_HEIGHT + 50);
+      translateY.value = Math.max(translateY.value, MAX_VALUE);
       console.log('event', event.translationY);
+    })
+    .onEnd(() => {
+      if (translateY.value > -SCREEN_HEIGHT / 3) {
+        translateY.value = withSpring(0, { damping: 50 });
+        onClose();
+        console.log('reached');
+      } else if (translateY.value < -SCREEN_HEIGHT / 2) {
+        translateY.value = withSpring(MAX_VALUE, { damping: 50 });
+      }
     });
 
   const rBottomStyle = useAnimatedStyle(() => {
@@ -43,12 +54,12 @@ const SearchModal = ({ isVisible, onClose }) => {
     };
   });
   useEffect(() => {
-    translateY.value = withSpring(-SCREEN_HEIGHT / 1.5);
+    translateY.value = withSpring(-SCREEN_HEIGHT / 1.1, { damping: 50 });
   }, []);
   return (
     <Modal
       visible={isVisible}
-      // style={{ backgroundColor: "rgba(0, 0, 0, 0.4)" }}
+      style={{ backgroundColor: 'rgba(0, 0, 0, 0.4)' }}
     >
       <View style={styles.container}>
         <GestureDetector gesture={gesture}>
@@ -103,7 +114,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.3)',
     fontFamily: 'Inter-Black',
     width: '100%',
-    height: '100%',
+    height: SCREEN_HEIGHT,
   },
   Scontainer: {
     width: '100%',
